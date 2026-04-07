@@ -1,0 +1,13 @@
+services:
+  registry:
+    image: registry:2
+    container_name: plugin-skopeo-registry
+    ports:
+      - 5120:5000
+    environment:
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5000/v2/ || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
