@@ -32,13 +32,13 @@ import lombok.experimental.SuperBuilder;
     examples = {
         @Example(
             full = true,
-            title = "Inspect a public container image using Skopeo.",
+            title = "Inspect a public container image.",
             code = """
-                id: skopeo_inspect_image
+                id: skopeo_inspect
                 namespace: company.team
 
                 tasks:
-                  - id: skopeo_inspect
+                  - id: inspect
                     type: io.kestra.plugin.skopeo.cli.SkopeoCLI
                     commands:
                       - skopeo inspect docker://alpine:latest
@@ -46,30 +46,36 @@ import lombok.experimental.SuperBuilder;
         ),
         @Example(
             full = true,
-            title = "Copy a container image between transports.",
+            title = "Mirror an image from Docker Hub to a private registry.",
             code = """
-                id: skopeo_copy_image
+                id: skopeo_mirror
                 namespace: company.team
 
                 tasks:
-                  - id: skopeo_copy
+                  - id: mirror
                     type: io.kestra.plugin.skopeo.cli.SkopeoCLI
                     commands:
-                      - skopeo copy docker://alpine:latest oci:/tmp/alpine:latest
+                      - skopeo copy
+                          --src-no-creds
+                          --dest-creds {{ secret('REGISTRY_USER') }}:{{ secret('REGISTRY_PASSWORD') }}
+                          docker://alpine:latest
+                          docker://my.registry.io/library/alpine:latest
                 """
         ),
         @Example(
             full = true,
-            title = "List all tags for a container image repository.",
+            title = "List all tags for an image in a private registry.",
             code = """
                 id: skopeo_list_tags
                 namespace: company.team
 
                 tasks:
-                  - id: skopeo_tags
+                  - id: list_tags
                     type: io.kestra.plugin.skopeo.cli.SkopeoCLI
                     commands:
-                      - skopeo list-tags docker://library/alpine
+                      - skopeo list-tags
+                          --creds {{ secret('REGISTRY_USER') }}:{{ secret('REGISTRY_PASSWORD') }}
+                          docker://my.registry.io/library/alpine
                 """
         )
     }
