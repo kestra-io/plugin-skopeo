@@ -21,7 +21,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @Schema(
-    title = "Execute Skopeo CLI commands in Docker",
+    title = "Execute Skopeo CLI commands.",
     description = """
         Runs the provided Skopeo CLI commands via the script runner. Defaults to Docker image `quay.io/skopeo/stable`
         when no image override is set. Use this task to copy, inspect, delete, and manage container images
@@ -91,7 +91,7 @@ public class SkopeoCLI extends AbstractExecScript implements RunnableTask<Script
         description = "Commands are executed in order by the task runner; provide full Skopeo subcommands such as `skopeo inspect ...` or `skopeo copy ...`."
     )
     @NotNull
-    protected Property<List<String>> commands;
+    private Property<List<String>> commands;
 
     @Override
     protected DockerOptions injectDefaults(RunContext runContext, DockerOptions original) throws IllegalVariableEvaluationException {

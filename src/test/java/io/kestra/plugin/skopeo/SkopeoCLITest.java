@@ -3,6 +3,7 @@ package io.kestra.plugin.skopeo;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import io.kestra.plugin.scripts.runner.docker.Docker;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableMap;
@@ -59,5 +60,33 @@ public class SkopeoCLITest {
         TestsUtils.awaitLog(logs, log -> log.getMessage() != null && log.getMessage().toLowerCase().contains("alpine"));
         receive.blockLast();
         assertThat(List.copyOf(logs).stream().anyMatch(log -> log.getMessage() != null && log.getMessage().toLowerCase().contains("alpine")), is(true));
+    }
+
+    @Test
+    void skopeoCopyImage() throws Exception {
+        List<LogEntry> logs = new CopyOnWriteArrayList<>();
+        Flux<LogEntry> receive = TestsUtils.receive(logQueue, l -> logs.add(l.getLeft()));
+
+        var skopeoTask = SkopeoCLI.builder()
+            .id(SkopeoCLI.class.getSimpleName())
+            .type(SkopeoCLI.class.getName())
+            .taskRunner(Docker.builder().type(Docker.instance().getType()).networkMode("host").build())
+            .commands(
+                Property.ofValue(
+                    List.of(
+                        "skopeo copy --src-no-creds --dest-tls-verify=false docker://alpine:latest docker://host.docker.internal:5120/alpine:latest"
+                    )
+                )
+            )
+            .build();
+
+        RunContext runContext = TestsUtils.mockRunContext(runContextFactory, skopeoTask, ImmutableMap.of());
+        ScriptOutput run = skopeoTask.run(runContext);
+
+        assertThat(run.getExitCode(), is(0));
+
+        TestsUtils.awaitLog(logs, log -> log.getMessage() != null && log.getMessage().toLowerCase().contains("copying"));
+        receive.blockLast();
+        assertThat(List.copyOf(logs).stream().anyMatch(log -> log.getMessage() != null && log.getMessage().toLowerCase().contains("copying")), is(true));
     }
 }
