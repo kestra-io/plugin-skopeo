@@ -1,7 +1,7 @@
-group: io.kestra.plugin.template
-name: "template"
-title: "Template"
-description: "Plugin template for Kestra"
+group: io.kestra.plugin.skopeo
+name: "skopeo"
+title: "Skopeo"
+description: "Plugin for interacting with container images and registries using Skopeo."
 body: ""
 videos: []
 createdBy: "Kestra Core Team"

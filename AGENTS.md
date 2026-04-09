@@ -1,12 +1,12 @@
-# Kestra Template Plugin
+# Kestra Skopeo Plugin
 
 ## What
 
-description = 'Plugin template for Kestra Exposes 1 plugin components (tasks, triggers, and/or conditions).
+Plugin for interacting with container images and registries using skopeo. Exposes 1 plugin component: SkopeoCLI task.
 
 ## Why
 
-Enables Kestra workflows to interact with Template, allowing orchestration of Template-based operations as part of data pipelines and automation workflows.
+Enables Kestra workflows to copy, inspect, delete, and manage container images across registries without requiring a local Docker daemon.
 
 ## How
 
@@ -14,22 +14,18 @@ Enables Kestra workflows to interact with Template, allowing orchestration of Te
 
 Single-module plugin. Source packages under `io.kestra.plugin`:
 
-- `templates`
-
-Infrastructure dependencies (Docker Compose services):
-
-- `app`
+- `skopeo`
 
 ### Key Plugin Classes
 
-- `io.kestra.plugin.templates.Example`
+- `io.kestra.plugin.skopeo.cli.SkopeoCLI`
 
 ### Project Structure
 
 ```
-plugin-template/
-├── src/main/java/io/kestra/plugin/templates/
-├── src/test/java/io/kestra/plugin/templates/
+plugin-skopeo/
+├── src/main/java/io/kestra/plugin/skopeo/cli/
+├── src/test/java/io/kestra/plugin/skopeo/
 ├── build.gradle
 └── README.md
 ```
