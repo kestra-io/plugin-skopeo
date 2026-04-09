@@ -74,7 +74,7 @@ public class SkopeoCLITest {
             .commands(
                 Property.ofValue(
                     List.of(
-                        "skopeo copy --src-no-creds --dest-tls-verify=false docker://alpine:latest docker://host.docker.internal:5120/alpine:latest"
+                        "skopeo copy --src-no-creds --dest-tls-verify=false docker://alpine:latest docker://localhost:5120/alpine:latest"
                     )
                 )
             )
