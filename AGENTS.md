@@ -2,11 +2,13 @@
 
 ## What
 
-Plugin for interacting with container images and registries using skopeo. Exposes 1 plugin component: SkopeoCLI task.
+- Provides plugin components under `io.kestra.plugin.skopeo.cli`.
+- Includes classes such as `SkopeoCLI`.
 
 ## Why
 
-Enables Kestra workflows to copy, inspect, delete, and manage container images across registries without requiring a local Docker daemon.
+- This plugin integrates Kestra with Skopeo.
+- It provides plugin for interacting with container images and registries using Skopeo.
 
 ## How
 
@@ -30,24 +32,11 @@ plugin-skopeo/
 └── README.md
 ```
 
-### Important Commands
+## Local rules
 
-```bash
-# Build the plugin
-./gradlew shadowJar
+- Base the wording on the implemented packages and classes, not on template README text.
 
-# Run tests
-./gradlew test
+## References
 
-# Build without tests
-./gradlew shadowJar -x test
-```
-
-### Configuration
-
-All tasks and triggers accept standard Kestra plugin properties. Credentials should use
-`{{ secret('SECRET_NAME') }}` — never hardcode real values.
-
-## Agents
-
-**IMPORTANT:** This is a Kestra plugin repository (prefixed by `plugin-`, `storage-`, or `secret-`). You **MUST** delegate all coding tasks to the `kestra-plugin-developer` agent. Do NOT implement code changes directly — always use this agent.
+- https://kestra.io/docs/plugin-developer-guide
+- https://kestra.io/docs/plugin-developer-guide/contribution-guidelines
