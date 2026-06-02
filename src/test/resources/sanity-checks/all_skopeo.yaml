@@ -1,0 +1,34 @@
+id: all_skopeo
+namespace: sanitychecks.plugin-skopeo
+
+tasks:
+  - id: skopeo_version
+    type: io.kestra.plugin.skopeo.cli.SkopeoCLI
+    commands:
+      - skopeo --version
+
+  - id: skopeo_list_tags
+    type: io.kestra.plugin.skopeo.cli.SkopeoCLI
+    commands:
+      - skopeo list-tags docker://docker.io/library/alpine | head -c 800
+
+  - id: skopeo_copy_to_dir
+    type: io.kestra.plugin.skopeo.cli.SkopeoCLI
+    outputFiles:
+      - alpine/manifest.json
+      - alpine/version
+    commands:
+      - skopeo copy --override-os linux docker://docker.io/library/alpine:3.20 dir:alpine
+
+  - id: assert
+    type: io.kestra.plugin.core.execution.Assert
+    conditions:
+      - "{{ outputs.skopeo_version.exitCode == 0 }}"
+      - "{{ outputs.skopeo_list_tags.exitCode == 0 }}"
+      - "{{ outputs.skopeo_copy_to_dir.exitCode == 0 }}"
+      - "{{ outputs.skopeo_copy_to_dir.outputFiles['alpine/manifest.json'] is not null }}"
+      - "{{ read(outputs.skopeo_copy_to_dir.outputFiles['alpine/manifest.json']) contains 'schemaVersion' }}"
+
+finally:
+  - id: purge
+    type: io.kestra.plugin.core.storage.PurgeCurrentExecutionFiles
