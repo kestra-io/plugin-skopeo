@@ -21,7 +21,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @Schema(
-    title = "Execute Skopeo CLI commands.",
+    title = "Execute Skopeo CLI commands",
     description = """
         Runs the provided Skopeo CLI commands via the script runner. Defaults to Docker image `quay.io/skopeo/stable`
         when no image override is set. Use this task to copy, inspect, delete, and manage container images
