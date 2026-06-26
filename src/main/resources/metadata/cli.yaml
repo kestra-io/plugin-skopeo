@@ -1,0 +1,8 @@
+group: io.kestra.plugin.skopeo.cli
+name: "cli"
+title: "Skopeo CLI"
+description: "Run Skopeo CLI commands to inspect, copy, and manage container images and registries."
+body: ""
+videos: []
+createdBy: "Kestra Core Team"
+managedBy: "Kestra Core Team"
