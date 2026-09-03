@@ -8,4 +8,4 @@ Skopeo has no separate connection class — authenticate by passing credentials 
 
 ## Tasks
 
-`cli.SkopeoCLI` runs one or more Skopeo commands inside a container — set `commands` (required list of full Skopeo subcommands such as `skopeo inspect docker://alpine:latest` or `skopeo copy docker://src docker://dest`). The default container image is `quay.io/skopeo/stable`; override `containerImage` to pin a specific version. Use `beforeCommands` to install extra tools or set environment variables before the main commands run. Apply [plugin defaults](https://kestra.io/docs/workflow-components/plugin-defaults) to share runner configuration across tasks.
+`cli.SkopeoCLI` runs one or more Skopeo commands inside a container — set `commands` (required list of full Skopeo subcommands such as `skopeo inspect docker://alpine:latest` or `skopeo copy docker://src docker://dest`). The default container image is `quay.io/skopeo/stable`; override `containerImage` to pin a specific version. Use `beforeCommands` to install extra tools or set environment variables before the main commands run. Set runner configuration on each task.
